@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= global.config.title %></title>
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    
+    <% if (global.config.debug) {%>
+    <link href="assets/css_extend/main.css" rel="stylesheet">
+    <% } else {%>
+    <link href="dist/css/bundle.css" rel="stylesheet">
+    <%}%>
+
+</head>
+  

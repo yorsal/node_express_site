@@ -1,0 +1,122 @@
+<% include common/meta.html %>
+
+  <body>
+    
+
+      <div class="middle-box loginscreen animated fadeInDown">
+        <div class="p-sm white-bg">
+            
+            <h3 class="text-center"></h3>
+            
+            <form action="/login" method="post" id="login_form" class="form-horizental">
+              <p class="alert alert-warning alert-error" style="display:none"><span></span><button type="button" class="btn_close_tip close"><i class="ace-icon fa fa-times"></i></button></p>
+              <fieldset>
+
+              <div class="form-group">
+              <input type="text" class="form-control" placeholder="用户名" name="username" />
+              </div>
+              <div class="form-group">
+              <input type="password" class="form-control" placeholder="密码" name="password" />
+              </div>
+
+              <button type="submit" class="btn btn-primary block full-width m-b">提交登陆</button>
+
+              </fieldset>
+            </form>
+      
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    <% include common/scripts.html %>
+
+    <script type="text/javascript">
+
+   //--- close tip
+    $('.btn_close_tip').click(function(){
+      $(this).parent().fadeOut();
+    });
+
+    //--- login
+    function loginSubmitHandler(form)
+    {
+      $('button[type="submit"]', form).prop('disabled', true);
+      $('button[type="submit"] span', form).html('登陆中...');
+      var options = {
+        dataType: 'json',
+        url: $(form).attr('data-url'),
+        success: function(res){
+          var info = res.info;
+          if (info.code === '1'){
+            location.href = '/homes';
+          }
+          else{
+            $('.alert-error span',form).html(info.message);
+            $('.alert-error', form).fadeIn();
+            $('input[name="password"]', form).val('');
+            $('button[type="submit"] span', form).html('提交登陆');
+            $('button[type="submit"]', form).prop('disabled', false);
+          }
+        },
+        error: function(){
+          $('button[type="submit"] span', form).html('提交登陆');
+          $('button[type="submit"]', form).prop('disabled', false);
+
+          
+        }
+      }
+      
+      form.ajaxSubmit(options);
+      
+    }
+  
+    $('#login_form').validate({
+        errorElement: 'div',
+        errorClass: 'help-block',
+        focusInvalid: false,
+        rules: {
+          username: {
+            required: true
+          },
+          password: {
+            required: true
+            
+          }
+          
+        },
+    
+        messages: {
+          username: {
+            required: "请输入用户名"
+          },
+          password: {
+            required: "请输入密码"
+          }
+        },
+    
+    
+        highlight: function (e) {
+          $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+        },
+    
+        success: function (e) {
+          $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+          $(e).remove();
+        },
+    
+        submitHandler: function (form) {
+          loginSubmitHandler($(form));
+          
+          return false;
+        },
+        invalidHandler: function (form) {
+        }
+      });
+    </script>
+  
+  </body>
+</html>

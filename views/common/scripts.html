@@ -1,0 +1,27 @@
+<!-- Mainly scripts -->
+
+<% 
+var env = 'dist';
+if (global.config.debug) env = 'assets';
+%>
+<script src="<%=env %>/js/jquery-2.1.1.js"></script>
+<script src="<%=env %>/js/bootstrap.min.js"></script>
+<script src="<%=env %>/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="<%=env %>/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="<%=env %>/js/plugins/summernote/summernote.min.js"></script>
+
+<% if (env == 'assets') {
+	var devScriptsTpl = '';
+
+	global.config.devScripts.forEach(function(value,key) {
+
+		devScriptsTpl += '<script src="assets/'+ value +'"></script>';
+
+	});
+	
+%>
+<%- devScriptsTpl -%>
+<% } else {%>
+
+<%}%>
